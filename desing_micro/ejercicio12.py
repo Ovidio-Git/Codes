@@ -11,16 +11,18 @@
 def run():
 
 	#reading file 1
-	with open('data1.txt', 'r') as d:
-		set1 = d.read().split()
+	with open('data1.txt', 'r') as file1:
+		aux = file1.read().split()
+		setdata = [int(aux[i]) for i in range(0,len(aux))] #convert to integer list
+
 	#reading file 2
-	with open('data2.txt', 'r') as d1:
-		set2 = d1.read().split()
+	with open('data2.txt', 'r') as file2:
+		aux = file2.read().split()
+		setdata2 = [int(aux[i]) for i in range(0,len(aux))] #convert to integer list
 
 
 
-	set2_int = int(set2)
-	print(set2[0]+set2[1])
+	
 
 #	with open ( 'output.txt','r' ) as out:
 #		for i in range (0,200):
