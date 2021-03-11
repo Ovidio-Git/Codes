@@ -6,19 +6,22 @@
 # contenga sólo números pares organizados de mayor a menor, estos
 # números no deben estar repetidos
 
-
+# ESTE ES EL PROGRAMA QUE LEE LOS DOS ARCHIVOS
 
 def run():
 
+	#reading file 1
 	with open('data1.txt', 'r') as d:
-		set1 = d.read()
-		
+		set1 = d.read().split()
+	#reading file 2
 	with open('data2.txt', 'r') as d1:
-		set2 = d1.read()
+		set2 = d1.read().split()
 
 
-	print(set1[0])
-	print(set2[2])
+
+	set2_int = int(set2)
+	print(set2[0]+set2[1])
+
 #	with open ( 'output.txt','r' ) as out:
 #		for i in range (0,200):
 #			if (set1[i]%2==0):

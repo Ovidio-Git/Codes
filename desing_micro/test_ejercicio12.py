@@ -1,6 +1,12 @@
 
+# Escriba un programa que cree dos archivos en formato txt: el primero
+# debe imprimir los números enteros desde 0 hasta 100, el segundo debe
+# imprimir los números enteros desde 50 hasta 200. Luego escriba otro
+# programa que lea ambos archivos y genere un archivo nuevo que
+# contenga sólo números pares organizados de mayor a menor, estos
+# números no deben estar repetidos
 
-
+#ESTE ES EL PROGRAMA QUE GENERA LOS DOS ARCHIVOS
 
 
 def run():
