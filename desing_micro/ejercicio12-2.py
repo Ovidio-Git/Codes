@@ -34,7 +34,7 @@ def run():
 	newdataset = list(set(dataset)) # dataset without equals numbers
 
 	# writing output file
-	with open('output.txt', 'w') as out:
+	with open('output_12.txt', 'w') as out:
 		for i in range(len(newdataset)-1, 0, -1):
 			out.write(f'{newdataset[i]}\n')
 
