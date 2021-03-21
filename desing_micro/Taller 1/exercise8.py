@@ -11,18 +11,25 @@ def Funtionderivate(x):
 
 def newton_raphson(e=None):       # implementacion del metodo Newthon Raphson
 	y = 0
+	
 	if e == None:
+		memory = []
 		for i in range (100):     # implementacion de la primera parte, donde se debe usar un ciclo for
 			x = y				  # para la implemetacion y = xi y x = xi-1
 			y = x - (Funtion(x) / Funtionderivate(x)) 
-			print(y, x)
+			memory.append(y)
+		print('=='*40)
+		print(np.array(memory)) 
+		print('=='*40)
 	
 	elif e != None:				  # implementacion de la segunda parte donde se debe usar un ciclo while
+		i = 0
 		while True:
+			i += 1
 			x = y
-			y = x - (Funtion(x) / Funtionderivate(x))
+			y = x - (Funtion(x) / Funtionderivate(x))			
 			if np.absolute(x-y) < e: # evaluacion de la condicion |Xi - Xi-1| < e 
-				print(y)
+				print(f'\n                Numero de interaciones (i) = {i}\n                Ultimo valor de xi = {y}')
 				break
 
 
@@ -38,7 +45,7 @@ def run():
 	if menu == 1:
 		newton_raphson()
 	elif menu == 2:
-		e = int(input(' '*16+'Ingrese el valor de epciolon: '))
+		e = float(input(' '*16+'Ingrese el valor de epciolon: '))
 		newton_raphson(e)
 	else:
 		print(" "*16+"Opcion no permitida")
