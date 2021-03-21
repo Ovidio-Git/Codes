@@ -10,7 +10,7 @@ typedef struct{
 } ListNode;
 
 ListNode* header = NULL;
-ListNode* footer = NUUL;
+ListNode* footer = NULL;
 
 ListNode* new(){
 	ListNode* newptr = (ListNode*) malloc(sizeof(ListNode));
