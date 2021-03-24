@@ -1,17 +1,28 @@
+import numpy as np 
 
-def funtion(x,y):
+def funtion_g(x0):
+    return np.array([2*x0[0], 50*x0[1]])
 
-    a = [ 2*x , 50*y ]
-    return a
 
-def funtion2 (a):
-    x = a - alpha * b
+def funtion_x(x, alpha, g):
+    return x - alpha * g  
+
 
 def steepest_descent():
-    x0 = 0.5
-    y0 = 0.5
+    memory = []
+    x0 = np.array([0.5, 0.5])
     alpha = 0.01
-    print(funtion(x0,y0))
+    k=funtion_g(x0)
+    memory.append(k)
+    for i in range(3):
+        k=funtion_x(x0, alpha, k)
+        memory.append(k)
+        x0 = k
+        k=funtion_g(k)
+        memory.append(k)
+        
+    print(memory)
+    
 
 def run():
     steepest_descent()
