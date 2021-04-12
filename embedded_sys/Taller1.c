@@ -15,15 +15,15 @@ int main(){
     
     int connection = 0;
     int socket_id = 0;
-    char buffer[500];
-    char msg[] ="GET /index.html HTTP/1.1\n\r";
+    char buffer[9999];
+    char msg[] ="GET /HTTP/1.1\r\n\r\n";
     socket_id = socket(PF_INET, SOCK_STREAM, 0);
 
     // Server parameters   AWS IP Public= 18.222.148.97
     struct sockaddr_in server;
     server.sin_family = AF_INET ;  // protocol
     server.sin_addr.s_addr = inet_addr("172.217.173.196"); // server ip
-    server.sin_port = htons(443); // connection port
+    server.sin_port = htons(80); // connection port
     // htons(port number) convert to 6 bit format 
     
     
@@ -34,15 +34,16 @@ int main(){
         return(-1);
     }
     printf("[CONNECTION SUCCESS]\r\n");
-    send(socket_id, msg, sizeof(msg), 0); 
-    recv(connection,buffer,sizeof(buffer),0);
-    for (int i = 0; i < 5; i++)
+    send(socket_id, msg, sizeof(msg), 0);
+    printf("[DATA SEND]\r\n");
+    recv(socket_id,buffer,9999,0);
+    printf("[DATA READ]\r\n");
+    for (int i = 0; i < 10; i++)
     {
-         printf(recv(connection,buffer,sizeof(buffer),0));
-         printf(buffer[i]);
+         printf("%s",buffer[i]);
     }
     
-   
+    puts(buffer);
     close(socket_id);
 
     return (0);
