@@ -6,6 +6,7 @@
 //https://github.com/lettier/ntpclient/blob/master/source/c/main.c
 
 #define Seventy_years 2208988800
+
 // SOCK_STREAM -> TCP 
 // SOCK_DGRAM -> UDP
 
@@ -47,9 +48,9 @@ int main(){
     // de la marca de tiempo cuando el paquete salió del servidor NTP.
     // El número de segundos corresponde a los segundos transcurridos desde 1900.
     // los ultimos 8 bites del buffer son los que forman los segundo
-    
-    aux[0] = recv(socket_id,buffer,sizeof(buffer),0);
-    printf("--> %ld\n\r", aux[0]);
+
+    recv(socket_id,buffer,sizeof(buffer),0);
+    printf("[+] Data receive\r\n");
     
 
     // convirtiendo las cadenas de 8 bytes a una de 32 bytes
@@ -59,22 +60,26 @@ int main(){
     aux[4] = aux[1]+ aux[2] + aux[3] + buffer[40];
     
   
-    printf("summi %ld \n\r", aux[4]);
-    
-    aux[5]= ntohl( aux[4] ); // Time-stamp seconds.
-    printf("a5 %ld \n\r", aux[5]);
-    aux[5] = aux[5] - Seventy_years;
-    printf("reste %ld \n\r", aux[5]);
-    
-    time_t txTm = ( time_t ) ( aux[5] - Seventy_years );
+    // printf("summi %ld \n\r", aux[4]);
 
-    printf( "Time: %s", ctime( ( const time_t* ) &txTm ) );
+    aux[5]= ntohl( aux[4] ); // Time-stamp seconds.
+    
+    printf("second after ntohl %ld \n\r", aux[5]);
+
+
+    time_t fecha = ( time_t ) ( aux[5] );
+    
+    //La función de biblioteca C char * ctime (const time_t * timer) devuelve una cadena que representa el tiempo local basado en el argumento timer.
+    //La cadena devuelta tiene el siguiente formato: 
+    //día de la semana, mes en letras, día del mes, hh: mm: ss la hora y el año.
+    
+    printf( "Time: %s", ctime( ( const time_t* ) &fecha ) );
 
     close(socket_id);
-    printf("[FINISH]\r\n");
     return (0);
 
 }
+
 
 
 
