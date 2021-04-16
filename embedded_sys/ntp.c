@@ -1,9 +1,10 @@
+
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h> //for socket(), connect(), send() and recv()
 #include <netinet/in.h>
-//https://github.com/lettier/ntpclient/blob/master/source/c/main.c
+
 
 #define Seventy_years 2208988800
 
@@ -20,7 +21,7 @@ int main(){
 
     // Server parameters  IP = 200.89.75.197
     struct sockaddr_in serverntp;
-    serverntp.sin_family = AF_INET ;  // protocol
+    serverntp.sin_family = AF_INET ; // protocol
     serverntp.sin_addr.s_addr = inet_addr("200.89.75.197"); // server ip
     serverntp.sin_port = htons(123); // 123 is ntp port number
 
@@ -48,12 +49,14 @@ int main(){
     // de la marca de tiempo cuando el paquete salió del servidor NTP.
     // El número de segundos corresponde a los segundos transcurridos desde 1900.
     // los ultimos 8 bites del buffer son los que forman los segundo
+    //Estos dos campos contienen los segundos de la marca de tiempo cuando el paquete salió del servidor NTP.
 
     recv(socket_id,buffer,sizeof(buffer),0);
     printf("[+] Data receive\r\n");
     
 
-    // convirtiendo las cadenas de 8 bytes a una de 32 bytes
+    // convirtiendo las cadenas de 8 bytes a una de 32 bytes 
+    
     aux[1] = buffer[43]<<24;
     aux[2] = buffer[42]<<16;
     aux[3] = buffer[41]<<8;
@@ -63,17 +66,19 @@ int main(){
     // printf("summi %ld \n\r", aux[4]);
 
     aux[5]= ntohl( aux[4] ); // Time-stamp seconds.
+    //    La función htonl() convierte el entero largo sin signo hostlong desde el  orden  de  bytes
+    //    del host al de la red.
     
-    printf("second after ntohl %ld \n\r", aux[5]);
+    printf("second after- ntohl %ld \n\r", aux[5]);
 
-
-    time_t fecha = ( time_t ) ( aux[5] );
+    aux[5] = aux[5] - Seventy_years; // le restamos los 70 años a la fecha 
     
+  
     //La función de biblioteca C char * ctime (const time_t * timer) devuelve una cadena que representa el tiempo local basado en el argumento timer.
     //La cadena devuelta tiene el siguiente formato: 
     //día de la semana, mes en letras, día del mes, hh: mm: ss la hora y el año.
     
-    printf( "Time: %s", ctime( ( const time_t* ) &fecha ) );
+    printf("======== FECHA =========\n\r %s", ctime(&aux[5]));
 
     close(socket_id);
     return (0);
