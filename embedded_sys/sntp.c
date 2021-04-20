@@ -1,10 +1,8 @@
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h> //for socket(), connect(), send() and recv()
 #include <netinet/in.h>
-
 
 #define Seventy_years 2208988800
 
@@ -61,19 +59,15 @@ int main(){
     aux[3] = buffer[41]<<8;
     aux[4] = aux[1]+ aux[2] + aux[3] + buffer[40];
     
-  
-
 
     aux[5]= ntohl( aux[4] );
     // convierte una cadena de formato de orden de byte de la red al 
     // orden de bytes del host
     
     
+    aux[5] = aux[5] - Seventy_years; // le restamos los 70 años a la fecha     
   
-
-    aux[5] = aux[5] - Seventy_years; // le restamos los 70 años a la fecha 
     
-  
     //La función ctime (const time_t * timer) 
     //devuelve una cadena que representa el tiempo basado en el argumento timer.
     //La cadena devuelta tiene el siguiente formato: 
@@ -85,7 +79,3 @@ int main(){
     return (0);
 
 }
-
-
-
-
