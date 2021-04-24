@@ -11,15 +11,15 @@ int main(){
     
     int connection = 0;
     int socket_id = 0;
-    char msg[] ="Hello sir, message send scket instance\n\r";
+    char msg[] ="ftp\n\r";
     char buffer[30]={0};
 
 
-    // Server parameters  IP = 200.160.7.186
+    // Server parameters  IP-FTP = 167.114.65.195
     struct sockaddr_in serverftp;
     serverftp.sin_family = AF_INET ;// protocol
-    serverftp.sin_addr.s_addr = inet_addr("200.160.7.186"); // server ip
-    serverftp.sin_port = htons(21); // ftp connection port
+    serverftp.sin_addr.s_addr = inet_addr("164.58.253.11"); // server ip
+    serverftp.sin_port = htons(5000); // ftp connection port
 
 
     socket_id = socket(PF_INET, SOCK_STREAM, 0); // TCP Protocol
@@ -38,19 +38,18 @@ int main(){
     printf("[+] Successful connection\r\n");
 
     
-    if (send(socket_id, msg, sizeof(msg), 0) < 0){
-        perror("[ERROR] Send \r\n");
-        return(-1);
-    }
-    printf("[+] Data send\r\n");
+    // if (send(socket_id, msg, sizeof(msg), 0) < 0){
+    //     perror("[ERROR] Send \r\n");
+    //     return(-1);
+    // }
+    // printf("[+] Data send\r\n");
 
 
-    if (recv(socket_id,buffer,sizeof(buffer),0) < 0){
-        perror("[ERROR] Send \r\n");
+    while (recv(socket_id,buffer,sizeof(buffer),0) > 0){
+         printf("%s", buffer);
         return(-1);
     }
     printf("[+] Data receive\r\n");
-
 
     close(socket_id);
     return (0);
