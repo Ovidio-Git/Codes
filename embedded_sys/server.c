@@ -22,12 +22,13 @@ int main(){
     
     int socket_server = 0;
     int socket_client = 0;
+    int addr_length = 0;
     char Bind, Listen = 0;
     char buffer[100] = {0};
-    char msg[] = "Hello client!\n\r";
     struct sockaddr_in server_server;
     struct sockaddr_in server_client;
 
+    // create socket sever
     socket_server = socket(PF_INET, SOCK_STREAM, 0);
     if (socket_server < 0){
         perror("[ERROR] Socket");
@@ -36,7 +37,7 @@ int main(){
     printf("[+] Socket\n\r");
        
     // Server parameters   
-    server_server.sin_family      = AF_INET ;  // protocol
+    server_server.sin_family      = PF_INET ;  // protocol
     server_server.sin_addr.s_addr = INADDR_ANY; // server ip
     server_server.sin_port        = htons(19900); // connection port
     // htons(port number) convert to 6 bit format
@@ -50,7 +51,7 @@ int main(){
     }
     printf("[+] Bind\n\r");
 
-
+    // Listen funtion 
     Listen = listen(socket_server, MAXPENDING);
     if (Listen < 0){
         perror("[ERROR] Listen");
@@ -58,32 +59,21 @@ int main(){
     }
     printf("[+] Listen\n\r");
 
-
-    socket_client = accept(socket_server,(struct sockaddr*)&server_client, sizeof(server_client));
+    // create socket client
+    socket_client = accept(socket_server,(struct sockaddr*)&server_client, &addr_length);
     if (socket_client < 0){
         perror("[ERROR] Socket client");
         return(-1);
     }
     printf("[+] Client connect\n\r");
 
-
-    if (send(socket_client, msg, sizeof(msg), 0) < 0){
-        perror("[ERROR] Data send");
-        return(-1);
+    // print data
+    while(recv(socket_client, buffer, sizeof(buffer),0) > 0){
+        printf("%s\n\r", buffer); 
     }
-    printf("[+] Data send\r\n");
+    printf("Finish Program\n\r");
 
-
-    if(recv(socket_server, buffer, sizeof(buffer),0) < 0){
-        perror("[ERROR] Data Reveice: ");
-        return(-1);
-    }
-    printf("[+] Data receive\r\n");
-
-
-    printf("%s", buffer);
-
-
+    // closed sockets
     close(socket_server);
     close(socket_client);
     return(0); 

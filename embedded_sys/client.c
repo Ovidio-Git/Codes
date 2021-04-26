@@ -64,6 +64,3 @@ int main(){
     close(socket_id);
     return (0);
 }
-
-
-
