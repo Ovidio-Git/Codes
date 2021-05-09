@@ -7,7 +7,7 @@
 #define  MAXPENDING 2  //  queue max connection permited
 
 
-void render(char file[],int socket){
+int render(char file[], int socket){
 
     // Website templates files
     char *ptrContent = NULL;
@@ -40,15 +40,18 @@ void render(char file[],int socket){
 
 int main(){
 
+    int port = 19901;
     // server variables
     int socket_server = 0;
     int socket_client = 0;
     int addr_length = 0;
     char Bind, Listen = 0;
+    char msg[] = "HTTP/1.1 200 OK\r\n\r\n";
     char buffer[100] = {0};
     struct sockaddr_in server_server;
     struct sockaddr_in server_client;
 
+    printf("[+] PORT: %d\n\r", port);
     // create socket sever
     socket_server = socket(PF_INET, SOCK_STREAM, 0);
     if (socket_server < 0){
@@ -60,7 +63,7 @@ int main(){
     // Server parameters
     server_server.sin_family      = PF_INET ;  // protocol
     server_server.sin_addr.s_addr = INADDR_ANY; // server ip
-    server_server.sin_port        = htons(19900); // connection port
+    server_server.sin_port        = htons(port); // connection port
     // htons(port number) convert to 6 bit format
 
 
@@ -88,14 +91,17 @@ int main(){
 
         // print data
         while(recv(socket_client, buffer, sizeof(buffer),0) > 0){
-            if (strncmp("GET / ", buffer, 6) == 0) // compare get request or post request
-            {
+
+            if (strncmp("GET / ", buffer, 6) == 0){
                 render("./index.html", socket_client);
+            }
+            else if (strncmp("POST", buffer, 4) == 0){
+                printf("------- QUE JUER PERRO ------------");
             }
             else if (strncmp("GET /test", buffer, 9) == 0){
                 render("./dashboard.html", socket_client);
             }
-
+            printf("==============\n\r%s\n\r==============\n\r",buffer);
         }
     }
 
