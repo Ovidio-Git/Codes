@@ -1,45 +1,38 @@
 #include <stdio.h>
 #include <string.h>
 
-void search(char chain[], char target[]){
+void search(char value1[],char value2[]){
 
-    int  n = 0;
-    char m = 0;
-    char i = 0;
-    char len = strlen(target);
-    char find[10];
+    FILE *ptrfile;
+    char cur = 0;
 
+    // open POST request file
+    ptrfile= fopen("stash.txt", "r");
 
-    while (1){
-        if (chain[n]==target[m]){
-            while(chain[n] == target[m]){
-                n++;
-                m++;
-                if (m==len){
-                    while(chain[n] != ' ' && chain[n] != '\n'){
-                        find[i]=chain[n];
-                        i++;
-                        n++;
-                    }
-                    break;
-                }
-            }
-            if(m==len){
-                break;
-            }
+    while(1){
+
+        // extract user and password of POST request
+        fscanf(ptrfile,"Username=%s Password=%s",value1, value2);
+        fseek(ptrfile, cur, SEEK_END);
+        cur +=7;
+
+        // finish loop
+        if (value1[0] != 0){
+            break;
         }
-        n++;
+
     }
-    printf("==>");
-    for (int i =0; i <= 8; i++){
-        printf("%c", find[i]);
-    }
-    printf("<==");
+    //close file
+    fclose(ptrfile);
+    //delete post request file
+    remove("stash.txt");
 }
 
 
 int main(){
-    char b[]="Accept-Language: en-US,en;q=0.9  Username=er32 Password=89re ccep� ";
-    char t[]="Username=";
-    search(b, t);
+    char value1[16]={0};
+    char value2[16]={0};
+    search(value1, value2);
+    printf("value 1: %s \n\r", value1);
+    printf("value 2: %s \n\r", value2);
 }

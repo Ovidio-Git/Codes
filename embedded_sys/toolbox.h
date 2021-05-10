@@ -3,6 +3,7 @@
 #define _TOOLBOX_H_
 
 // call standart librarys
+#include <stdio.h>
 #include <string.h>
 
 
@@ -14,13 +15,13 @@
  */
 char render(char file[], int socket);
 
-/** Search a varaible  target in chain string
+/** Search varaibles in file.txt
  *
- *  char chain[] -> string
- *  char target[] -> Target variable
- *  Return -> value of variable
+ *  char value1[] -> variable 1
+ *  char value2[] -> variable 2
+ *  Return -> value of variables
  */
-void search(char chain[], char target[]);
+void search(char value1[],char value2[]);
 
 
 /** Verfication username and password for login

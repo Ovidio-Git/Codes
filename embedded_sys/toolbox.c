@@ -40,45 +40,37 @@ char render(char file[], int socket){
 
 
 
-/** Search a varaible  target in chain string
+/** Search varaibles in file.txt
  *
- *  char chain[] -> string
- *  char target[] -> Target variable
- *  Return -> value of variable
+ *  char value1[] -> variable 1
+ *  char value2[] -> variable 2
+ *  Return -> value of variables
  */
-void search(char chain[], char target[]){
+void search(char value1[],char value2[]){
 
-    int  n = 0;
-    char m = 0;
-    char i = 0;
-    char len = strlen(target);
-    char find[10];
+    FILE *ptrfile;
+    char cur = 0;
 
-    while (1){
-        if (chain[n]==target[m]){
-            while(chain[n] == target[m]){
-                n++;
-                m++;
-                if (m==len){
-                    while(chain[n] != ' ' && chain[n] != '\n'){
-                        find[i]=chain[n];
-                        i++;
-                        n++;
-                    }
-                    break;
-                }
-            }
-            if(m==len){
-                break;
-            }
+    // open POST request file
+    ptrfile= fopen("stash.txt", "r");
+
+    while(1){
+
+        // extract user and password of POST request
+        fscanf(ptrfile,"Username=%s Password=%s",value1, value2);
+        fseek(ptrfile, cur, SEEK_END);
+        cur +=7;
+
+        // finish loop
+        if (value1[0] != 0){
+            break;
         }
-        n++;
+
     }
-    printf("==>");
-    for (int i =0; i <= 8; i++){
-        printf("%c", find[i]);
-    }
-    printf("<==");
+    //close file
+    fclose(ptrfile);
+    //delete post request file
+    remove("stash.txt");
 }
 
 
