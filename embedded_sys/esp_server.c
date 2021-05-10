@@ -9,14 +9,17 @@
 
 int main(){
 
-    int port = 19900;
+    int port = 19902;
     // server variables
     int socket_server = 0;
     int socket_client = 0;
     int addr_length = 0;
     char Bind, Listen = 0;
+    char aux = 8;
     char msg[] = "HTTP/1.1 200 OK\r\n\r\n";
-    char buffer[100] = {0};
+    char buffer[100] ={0};
+    char username[10]={0};
+    char password[10]={0};
     struct sockaddr_in server_server;
     struct sockaddr_in server_client;
 
@@ -28,6 +31,7 @@ int main(){
         return(-1);
     }
     printf("[+] Socket\n\r");
+
 
     // Server parameters
     server_server.sin_family      = PF_INET ;  // protocol
@@ -43,6 +47,7 @@ int main(){
         return (-1);
     }
     printf("[+] Bind\n\r");
+
 
     // Listen funtion
     Listen = listen(socket_server, MAXPENDING);
@@ -61,20 +66,30 @@ int main(){
         // send data
         while(recv(socket_client, buffer, sizeof(buffer),0) > 0){
 
+            aux = 0;
+            // send index.html
             if (strncmp("GET / ", buffer, 6) == 0){
                 render("./index.html", socket_client);
             }
+            // send main.css
             else if (strncmp("GET /main.css", buffer, 13) == 0){
                 render("./main.css", socket_client);
             }
-            else if (strncmp("POST", buffer, 4) == 0){
-                // search(buffer, "Username=");
-                // search(buffer, "Password=");
+            //receive post request
+            else if (strncmp("t-Encoding", buffer, 10) == 0){
+                write(buffer);
+                search(username,password);
+                printf("\n\rUSER:%s",username);
+                printf("\n\rNAME:%s",password);
+                aux = login(username, password);
+                printf("\n\rlogin value -> %d <-", aux);
             }
+            //send dashboard.html
             else if (strncmp("GET /test", buffer, 9) == 0){
                 render("./dashboard.html", socket_client);
             }
             printf("==============\n\r%s\n\r==============\n\r",buffer);
+
         }
     }
 

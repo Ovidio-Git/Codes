@@ -23,6 +23,12 @@ char render(char file[], int socket);
  */
 void search(char value1[],char value2[]);
 
+/** write a file.txt with buffer information
+ *
+ *  char buffer[] -> variable 1
+ */
+void write (char buffer[]);
+
 
 /** Verfication username and password for login
  *

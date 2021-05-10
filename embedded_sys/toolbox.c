@@ -38,6 +38,19 @@ char render(char file[], int socket){
     return(0);
 }
 
+/** write a file.txt with buffer information
+ *
+ *  char buffer[] -> variable 1
+ */
+void write (char buffer[]){
+    FILE *ptrfile;
+    /* create the file for writing*/
+    ptrfile = fopen ("stash.txt","w");
+    /* write buffer information*/
+    fprintf (ptrfile, buffer);
+    /* close the file*/
+    fclose (ptrfile);
+}
 
 
 /** Search varaibles in file.txt
@@ -50,6 +63,13 @@ void search(char value1[],char value2[]){
 
     FILE *ptrfile;
     char cur = 0;
+
+    // clean data input
+    for (int i = 0; i <= 10; i++)
+    {
+        value1[i]=0;
+        value2[i]=0;
+    }
 
     // open POST request file
     ptrfile= fopen("stash.txt", "r");
@@ -72,6 +92,8 @@ void search(char value1[],char value2[]){
     //delete post request file
     remove("stash.txt");
 }
+
+
 
 
 /** Verfication username and password for login
