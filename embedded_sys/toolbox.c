@@ -7,7 +7,7 @@
  *  char socket[] -> socket for send information
  *  return -> -1 if html file not found
  */
-int render(char file[], int socket){
+char render(char file[], int socket){
 
     // Website templates files
     char *ptrContent = NULL;
@@ -35,6 +35,7 @@ int render(char file[], int socket){
     close(socket); // close client socket
     free(ptrContent);   // freeing memory
     fclose(ptrfile);    // close file
+    return(0);
 }
 
 
@@ -80,4 +81,39 @@ void search(char chain[], char target[]){
     printf("<==");
 }
 
+
+/** Verfication username and password for login
+ *
+ *  Return -> 1 user correct
+ *  Return -> 0 user incorrect
+ */
+char login(char username[], char password[]){
+
+    FILE *database;
+    char userdb[20], passdb[20];
+    char cur=0;
+
+    // open database file
+    database= fopen("database.txt", "r");
+    while(1){
+
+        // extract user and password of database
+        fscanf(database,"User:%s Password:%s",userdb,passdb);
+        fseek(database, cur, SEEK_SET); // go end file
+
+        // compare data with database
+        if( (strcmp(username,userdb)==0) && (strcmp(password,passdb)==0) ){
+            return 1;
+        }
+        else{
+            cur += 27;
+        }
+        if (cur == fseek(database, cur, SEEK_END) ){
+            return 0;
+        }
+    }
+    //close database
+    fclose(database);
+    return(0);
+}
 

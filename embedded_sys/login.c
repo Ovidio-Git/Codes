@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int login(char username[], char password[]){
+char login(char username[], char password[]){
 
     FILE *database;
     char userdb[20], passdb[20];
