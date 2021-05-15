@@ -1,6 +1,34 @@
 import machine
+import socket
 from time import sleep
 
+def http_get(url):
+    _, _, host, path = url.split('/', 3)
+    addr = socket.getaddrinfo(host, 80)[0][-1]
+    s = socket.socket()
+    s.connect(addr)
+    s.send(bytes('POST /%s HTTP/1.0\r\nHost: %s\r\n\r\n' % ('/metrics', host), 'utf8'))
+    while True:
+        data = s.recv(100)
+        if data:
+            print(str(data, 'utf8'), end='')
+        else:
+            break
+    s.close()
+
+
+def website(url):
+	_, _, host, path = url.split('/', 3)
+	addr = socket.getaddrinfo(host, 80)[0][-1]
+	s = socket.socket()
+	s.connect(addr)
+	data = 48
+	s.send(bytes('POST /metrics/%s HTTP/1.1\r\nContent-Type: multipart/form-data; boundary=---011000010111000001101001\r\nHost: %s\r\n\r\n' % (data, host), 'utf8'))
+	s.close()
+
+# POST /metrics/45 HTTP/1.1
+# Content-Type: multipart/form-data; boundary=---011000010111000001101001
+# Host: localhost:5000
 def sleep_mode(reset_time):
 	rtc = machine.RTC() # RTC (Real Time Clock)
 	rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)
@@ -12,21 +40,24 @@ def current():
 	pin = machine.Pin(2, machine.Pin.OUT)
 	pin.off()
 	adc = machine.ADC(0)
-	while True:
+	for _ in range(5):
 		print(adc.read())
 		sleep(0.25)
 		if (adc.read() > 1020):
 			break
-	machine.deepsleep()
+	#machine.deepsleep()
 
 
 def run():
 	if machine.reset_cause() == machine.DEEPSLEEP_RESET:
-		print('\n\rDespertando...')
+		print('\n\rdespertando... uwu')
 	else:
-		print('\n\rMe resetearon we :3')
-	sleep_mode(5000)
+		print('\n\rme resetearon we :3')
+	#sleep_mode(5000)
 	current()
+	# http_get("http://pinogano2.mooo.com/")
+	website("http://pinogano2.mooo.com")
+
 
 
 if __name__ == '__main__':

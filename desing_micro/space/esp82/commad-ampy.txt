@@ -18,3 +18,11 @@ Commands:
   put  Put a file on the board.
   rm   Remove a file from the board.
   run  Run a script and print its output.
+
+
+
+	--> formations command <--
+
+ampy -p /dev/ttyUSB0 [comand] -> programming board
+
+screen /dev/ttyUSB0 115200 -> inside board 
