@@ -2,33 +2,25 @@ import machine
 import socket
 from time import sleep
 
-def http_get(url):
-    _, _, host, path = url.split('/', 3)
-    addr = socket.getaddrinfo(host, 80)[0][-1]
-    s = socket.socket()
-    s.connect(addr)
-    s.send(bytes('POST /%s HTTP/1.0\r\nHost: %s\r\n\r\n' % ('/metrics', host), 'utf8'))
-    while True:
-        data = s.recv(100)
-        if data:
-            print(str(data, 'utf8'), end='')
-        else:
-            break
-    s.close()
 
-
-def website(url):
-	_, _, host, path = url.split('/', 3)
-	addr = socket.getaddrinfo(host, 80)[0][-1]
+def request(url, sensor):
+	addr = socket.getaddrinfo(url, 80)[0][-1]
 	s = socket.socket()
 	s.connect(addr)
-	data = 48
-	s.send(bytes('POST /metrics/%s HTTP/1.1\r\nContent-Type: multipart/form-data; boundary=---011000010111000001101001\r\nHost: %s\r\n\r\n' % (data, host), 'utf8'))
+	s.send(bytes('POST /metrics/%s HTTP/1.1\r\nContent-Type: multipart/form-data; boundary=---011000010111000001101001\r\nHost: pinogano2.mooo.com\r\n\r\n',(sensor,)))
+	print("e")
+	while True:
+		data = s.recv(100)
+		if data:
+			print(str(data, 'utf8'), end='')
+		else:
+			break
 	s.close()
 
-# POST /metrics/45 HTTP/1.1
+# POST /metrics/12 HTTP/1.1
 # Content-Type: multipart/form-data; boundary=---011000010111000001101001
-# Host: localhost:5000
+# Host: pinogano2.mooo.com
+
 def sleep_mode(reset_time):
 	rtc = machine.RTC() # RTC (Real Time Clock)
 	rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)
@@ -55,8 +47,7 @@ def run():
 		print('\n\rme resetearon we :3')
 	#sleep_mode(5000)
 	current()
-	# http_get("http://pinogano2.mooo.com/")
-	website("http://pinogano2.mooo.com")
+	request("pinogano2.mooo.com", 33)
 
 
 
