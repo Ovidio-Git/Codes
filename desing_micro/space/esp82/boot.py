@@ -1,12 +1,12 @@
 def do_connect():
-	import network 
+	import network
 	sta_if = network.WLAN(network.STA_IF)
 	if not sta_if.isconnected():
-		print('Connecting to network :) ...')
+		print('connecting to network :) ...')
 		sta_if.active(True)
 		sta_if.connect(':D','19592SamuelA')
 		while not sta_if.isconnected():
-			print('Connecting...')
+			print('connecting :D ...')
 	print('network config', sta_if.ifconfig())
 
 
